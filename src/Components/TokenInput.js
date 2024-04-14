@@ -8,6 +8,7 @@ import '../Styles/Deposit.css';
 const TokenInput = (props) => {
 
     const currencies = [
+        'PRC',
         'BTC',
         'ETH',
         'USDT',
@@ -15,7 +16,7 @@ const TokenInput = (props) => {
     ];
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState('BTC');
+    const [selectedItem, setSelectedItem] = useState('PRC');
 
     const [payDropdownOpen, setPayDropdownOpen] = useState(false);
 

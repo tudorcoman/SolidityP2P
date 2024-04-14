@@ -6,6 +6,7 @@ import '../Styles/Deposit.css';
 const Deposit = () => {
 
     const currencies = [
+        'PRC',
         'BTC',
         'ETH',
         'USDT',
@@ -13,7 +14,7 @@ const Deposit = () => {
     ];
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState('BTC');
+    const [selectedItem, setSelectedItem] = useState('PRC');
 
     const toggle = () => setDropdownOpen(!dropdownOpen);
     

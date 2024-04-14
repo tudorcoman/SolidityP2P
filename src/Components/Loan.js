@@ -5,6 +5,7 @@ import '../Styles/Deposit.css';
 
 const Loan = () => {
     const currencies = [
+        'PRC',
         'BTC',
         'ETH',
         'USDT',
@@ -12,7 +13,7 @@ const Loan = () => {
     ];
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState('BTC');
+    const [selectedItem, setSelectedItem] = useState('PRC');
 
     const toggle = () => setDropdownOpen(!dropdownOpen);
 
