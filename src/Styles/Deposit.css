@@ -1,0 +1,28 @@
+.input-container{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 50vh;
+}
+
+.token-input-group{
+    width: 50%;
+}
+
+.submit-button{
+    border-radius: 10px 0px 0px 10px;
+    width: 100px;
+    background-color: var(--highlight-color);
+    border-color: var(--highlight-color);
+    color: var(--text-grey);
+}
+
+.token-input{
+    border-radius: 0px 10px 10px 0px;
+}
+
+.selected-item{
+    color: var(--text-black);
+}

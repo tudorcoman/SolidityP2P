@@ -1,0 +1,41 @@
+.dashboard-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* min-height: 100vh; */
+}
+
+.dashboard{
+    border: 5px solid var(--text-grey);
+    border-radius: 10px;
+    padding: 50px 100px 100px 100px;
+}
+
+.dashboard-title{
+    font-size: 50px;
+    color: var(--text-white);
+    margin-bottom: 50px;
+}
+
+.dashboard-item{
+    margin-bottom: 30px;
+}
+
+.pay-button{
+    background-color: var(--highlight-color);
+    color: var(--text-grey);
+    border-color: var(--highlight-color);
+    width: 100px;
+    border-radius: 5px !important;
+}
+
+.pay-button:hover{
+    background-color: blue;
+    border-color: blue  !important;
+    color: var(--text-white);
+}
+
+
+
