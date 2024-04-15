@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useWallet } from "../Blockchain/Context";
 
-import { connectWalletMetamask } from "../Blockchain/Service";
+import { connectWalletMetamask, getDepositBalance, getLoanBalance } from "../Blockchain/Service";
 
 import '../Styles/Home.css';
 
@@ -11,6 +11,8 @@ import { Button } from "reactstrap";
 import { ReactTyped } from "react-typed";
 
 import PayModal from "./PayModal";
+
+const { ethers } = require("ethers");
 
 const Home = () => {
 
@@ -22,6 +24,8 @@ const Home = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
 
     const { wallet, initializeWallet } = useWallet();
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
 
     const accountChangedHandler = (address) => {
         initializeWallet(address);
@@ -61,7 +65,16 @@ const Home = () => {
         if (savedAddress) {
           initializeWallet(savedAddress);
           setIsUserLoggedIn(true);
+          provider.getSigner().then(async (signer) => {
+            const depositBalance = await getDepositBalance(signer);
+            const loanedBalance = await getLoanBalance(signer);
+            setDepositedAmount(depositBalance);
+            setLoanAmount(loanedBalance);
+          });
         }
+
+        
+        
       }, []);
       
 
