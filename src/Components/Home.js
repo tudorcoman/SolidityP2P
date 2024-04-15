@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useWallet } from "../Blockchain/Context";
+
+import { connectWalletMetamask } from "../Blockchain/Service";
 
 import '../Styles/Home.css';
 
@@ -17,6 +21,17 @@ const Home = () => {
 
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
 
+    const { wallet, initializeWallet } = useWallet();
+
+    const accountChangedHandler = (address) => {
+        initializeWallet(address);
+        localStorage.setItem('walletAddress', address);
+    }
+      
+
+    const handleLogin = () => {
+        connectWalletMetamask(accountChangedHandler);
+    }
 
     const openModal = (e) => {
         e.preventDefault();
@@ -28,15 +43,35 @@ const Home = () => {
         setIsModalOpen(false);
     }
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        setIsUserLoggedIn(true);
-    }
+    // const handleLogin = (e) => {
+    //     e.preventDefault();
+    //     setIsUserLoggedIn(true);
+    // }
 
     const handleLogout = (e) => {
         e.preventDefault();
         setIsUserLoggedIn(false);
-    }
+        localStorage.removeItem('walletAddress');
+        initializeWallet(null);
+      }
+      
+
+    useEffect(() => {
+        const savedAddress = localStorage.getItem('walletAddress');
+        if (savedAddress) {
+          initializeWallet(savedAddress);
+          setIsUserLoggedIn(true);
+        }
+      }, []);
+      
+
+    useEffect(() => {
+        if (wallet) {
+            console.log(wallet.address);
+            setIsUserLoggedIn(true);
+        }
+
+    }, [wallet]);
 
     return (
 
