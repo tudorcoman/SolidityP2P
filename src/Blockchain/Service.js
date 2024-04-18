@@ -18,9 +18,11 @@ const web3 = new Web3(window.ethereum);
 
 const oracleContractAddress = "0xd10b7fa0ecdc37abd6e4e8100bbf96c2e3073346"
 const principalCoinContractAddress = "0x0a23f12d5199ea81d126136d67f5df67f6a28c81"
-const lendingPlatformContractAddress = "0x82ef08ceD3E57c6122C45f63A1F437DA42c24020"
+const lendingPlatformContractAddress = "0x66bcd74fb1dc72f5a5277957c40305c28c4fc3ac"
 
 const testContractAddress = "0x358AA13c52544ECCEF6B0ADD0f801012ADAD5eE3"
+
+const tokenDecimals = 18;
 
 export const connectWalletMetamask = async (accountChangedHandler) => {
     const provider = new ethers.BrowserProvider(window.ethereum);
@@ -70,7 +72,9 @@ export const deposit = async (provider, amount) => {
 export const withdraw = async (provider, amount) => {
     const lendingPlatformContract = getLendingPlatformContract(provider);
     try{
-        const tx = await lendingPlatformContract.withdraw(amount);
+        const convertedAmount = BigInt(amount);
+        console.log("CONVERTED AMOUNT:", convertedAmount);
+        const tx = await lendingPlatformContract.withdraw(convertedAmount);
         await tx.wait();
         return tx;
     }

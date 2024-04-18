@@ -1,6 +1,7 @@
 import Home from './Components/Home';
 import Deposit from './Components/Deposit';
 import Loan from './Components/Loan';
+import Withdraw from './Components/Withdraw';
 
 export const HomeRoute = {
     path: '/',
@@ -20,6 +21,12 @@ export const LoanRoute = {
     component: Deposit
 };
 
+export const WithdrawRoute = {
+    path: '/withdraw',
+    name: 'Withdraw',
+    component: Withdraw
+};
+
 const routes = [
     {
         path: '/',
@@ -34,6 +41,11 @@ const routes = [
     {
         path: '/loan',
         component: Loan,
+        exact: true
+    },
+    {
+        path: '/withdraw',
+        component: Withdraw,
         exact: true
     }
 ];

@@ -92,7 +92,10 @@ const Home = () => {
             setIsUserLoggedIn(true);
             getDepositBalance(provider, wallet).then((balance) => {
                 setDepositedAmount(balance.toString());
-            });   
+            }); 
+            getLoanBalance(provider, wallet).then((balance) => {
+                setLoanAmount(balance.toString());
+            });  
         }
 
     }, [wallet]);

@@ -2,7 +2,7 @@ import React from "react";
 import { Nav, NavItem, NavbarBrand } from "reactstrap";
 import { NavLink } from 'react-router-dom'; // Import from 'react-router-dom'
 
-import { HomeRoute, DepositRoute, LoanRoute } from '../RouteNames'; // Import the route names
+import { HomeRoute, DepositRoute, LoanRoute, WithdrawRoute } from '../RouteNames'; // Import the route names
 
 import { useWallet } from '../Blockchain/Context'; // Import the useWallet hook
 
@@ -57,6 +57,15 @@ const NavMenu = (props) => {
                             activeClassName="active"
                         >
                             Loan
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink 
+                            to={WithdrawRoute.path}
+                            className="nav-link"
+                            activeClassName="active"
+                        >
+                            Withdraw
                         </NavLink>
                     </NavItem>
                 </>   

@@ -3,10 +3,7 @@ import { createContext, useContext, useState } from "react";
 const WalletContext = createContext();
 
 const WalletProvider = ({ children }) => {
-    const [wallet, setWallet] = useState(() => {
-        const savedWallet = localStorage.getItem('walletAddress');
-        return savedWallet ? { address: savedWallet } : null;
-    });
+    const [wallet, setWallet] = useState(null);
 
     const initializeWallet = (wallet) => {
         setWallet(wallet);

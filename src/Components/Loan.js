@@ -83,6 +83,11 @@ const Loan = () => {
                 borrow(signer, inputAmount, inputDays).then(() => {
                     setInputAmount(0);
                     setInputDays(1);
+                })
+                .then(() => {
+                    getLoanBalance(provider, wallet).then((balance) => {
+                        setLoanedAmount(balance);
+                    });
                 });
             } else {
                 alert("Please enter a valid amount and number of days");

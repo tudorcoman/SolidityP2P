@@ -87,6 +87,11 @@ const Deposit = () => {
                 deposit(signer, inputAmount).then(() => {
                     setInputAmount(0);
                 
+                })
+                .then(() => {
+                    getDepositBalance(provider, wallet).then((balance) => {
+                        setDepositedAmount(balance.toString());
+                    });
                 });
             else
                 alert("Please enter a valid amount");
