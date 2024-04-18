@@ -4,11 +4,15 @@ import { NavLink } from 'react-router-dom'; // Import from 'react-router-dom'
 
 import { HomeRoute, DepositRoute, LoanRoute } from '../RouteNames'; // Import the route names
 
+import { useWallet } from '../Blockchain/Context'; // Import the useWallet hook
+
 import '../Styles/NavMenu.css';
 
 const NavMenu = (props) => {
 
     const imagePath = "/p2p.png";
+
+    const { wallet } = useWallet();
 
     return (
         <Nav className="navmenu">
@@ -25,33 +29,39 @@ const NavMenu = (props) => {
             Principal2Principal
             </NavbarBrand>
             <div className="navitems-container">
-                <NavItem>
-                    <NavLink
-                        to={HomeRoute.path}
-                        className="nav-link"
-                        activeClassName="active"
-                    >
-                        Home
-                    </NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink 
-                        to={DepositRoute.path}
-                        className="nav-link"
-                        activeClassName="active"
-                    >
-                        Deposit
-                    </NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink 
-                        to={LoanRoute.path}
-                        className="nav-link"
-                        activeClassName="active"
-                    >
-                        Loan
-                    </NavLink>
-                </NavItem>
+                
+                {wallet ? (
+                <>
+                    <NavItem>
+                        <NavLink
+                            to={HomeRoute.path}
+                            className="nav-link"
+                            activeClassName="active"
+                        >
+                            Home
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink 
+                            to={DepositRoute.path}
+                            className="nav-link"
+                            activeClassName="active"
+                        >
+                            Deposit
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink 
+                            to={LoanRoute.path}
+                            className="nav-link"
+                            activeClassName="active"
+                        >
+                            Loan
+                        </NavLink>
+                    </NavItem>
+                </>   
+                ) : null
+                    }
             </div>
         </Nav>
     );

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useWallet } from "../Blockchain/Context";
 
-import { connectWalletMetamask, getDepositBalance, getLoanBalance } from "../Blockchain/Service";
+import { connectWalletMetamask, getDepositBalance, getLoanBalance, deposit } from "../Blockchain/Service";
 
 import '../Styles/Home.css';
 
@@ -29,12 +29,13 @@ const Home = () => {
 
     const accountChangedHandler = (address) => {
         initializeWallet(address);
-        localStorage.setItem('walletAddress', address);
     }
       
 
     const handleLogin = () => {
-        connectWalletMetamask(accountChangedHandler);
+        connectWalletMetamask(accountChangedHandler).then(() => {
+            setIsUserLoggedIn(true);
+        });
     }
 
     const openModal = (e) => {
@@ -55,22 +56,29 @@ const Home = () => {
     const handleLogout = (e) => {
         e.preventDefault();
         setIsUserLoggedIn(false);
-        localStorage.removeItem('walletAddress');
         initializeWallet(null);
       }
       
 
     useEffect(() => {
-        const savedAddress = localStorage.getItem('walletAddress');
-        if (savedAddress) {
-          initializeWallet(savedAddress);
+        if (wallet) {
           setIsUserLoggedIn(true);
-          provider.getSigner().then(async (signer) => {
-            const depositBalance = await getDepositBalance(signer);
-            const loanedBalance = await getLoanBalance(signer);
-            setDepositedAmount(depositBalance);
-            setLoanAmount(loanedBalance);
+          console.log(provider);
+          console.log(wallet.address);
+          getDepositBalance(provider, wallet).then((balance) => {
+            setDepositedAmount(balance);
           });
+          getLoanBalance(provider, wallet).then((balance) => {
+            setLoanAmount(balance);
+          });                                                   
+            
+        //   provider.getSigner().then(async (signer) => {
+        //     console.log(signer);
+        //     const balance = await getDepositBalance(signer);
+        //     const loanBalance = await getLoanBalance(signer);
+        //     setDepositedAmount(balance);
+        //     setLoanAmount(loanBalance);
+        //     });
         }
 
         
@@ -82,6 +90,9 @@ const Home = () => {
         if (wallet) {
             console.log(wallet.address);
             setIsUserLoggedIn(true);
+            getDepositBalance(provider, wallet).then((balance) => {
+                setDepositedAmount(balance.toString());
+            });   
         }
 
     }, [wallet]);

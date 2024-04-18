@@ -15,7 +15,8 @@
     "react-scripts": "5.0.1",
     "react-typed": "^2.0.12",
     "reactstrap": "^9.2.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "web3": "^4.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,7 +28,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "env": {
+      "es2020": true
+    }
   },
   "browserslist": {
     "production": [

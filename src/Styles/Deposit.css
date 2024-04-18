@@ -5,6 +5,8 @@
     align-items: center;
     text-align: center;
     min-height: 50vh;
+    flex-direction: column !important;
+    row-gap: 20px;
 }
 
 .token-input-group{
@@ -25,4 +27,16 @@
 
 .selected-item{
     color: var(--text-black);
+}
+
+.days-input-group{
+    width: 10% !important;
+}
+
+.dashboard-item{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }

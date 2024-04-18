@@ -34,20 +34,21 @@ const TokenInput = (props) => {
     
     return (
         <div className="input-container">
-            <ButtonDropdown isOpen={payDropdownOpen} toggle={payToggle}>
-                <DropdownToggle className="submit-button"
-                    color="primary"
-                    caret
-                    // size="lg"
-                >
-                    Pay
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem onClick={handlePayDeposit}>Deposit</DropdownItem>
-                    <DropdownItem onClick={handlePayLoan}>Loan</DropdownItem>
-                </DropdownMenu>
-            </ButtonDropdown>
+            
             <InputGroup className="token-input-group">
+                <ButtonDropdown isOpen={payDropdownOpen} toggle={payToggle}>
+                    <DropdownToggle className="submit-button"
+                        color="primary"
+                        caret
+                        // size="lg"
+                    >
+                        Pay
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem onClick={handlePayDeposit}>Deposit</DropdownItem>
+                        <DropdownItem onClick={handlePayLoan}>Loan</DropdownItem>
+                    </DropdownMenu>
+                </ButtonDropdown>
                 <Input type="number" min={1} placeholder="Amount" className="token-input"/>
                 <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
                     
