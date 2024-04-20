@@ -91,7 +91,7 @@ const Home = () => {
             console.log(wallet.address);
             setIsUserLoggedIn(true);
             getDepositBalance(provider, wallet).then((balance) => {
-                setDepositedAmount(balance.toString());
+                setDepositedAmount(balance.toString() / 1000);
             }); 
             getLoanBalance(provider, wallet).then((balance) => {
                 setLoanAmount(balance.toString());

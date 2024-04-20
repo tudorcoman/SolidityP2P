@@ -83,17 +83,17 @@ const Withdraw = () => {
         const signer = await provider.getSigner();
         
         if(wallet){
-            if(inputAmount > 0)
-                withdraw(signer, inputAmount).then(() => {
-                    setInputAmount(0);
-                
-                })
-                .then
-                (getDepositBalance(provider, wallet).then((balance) => {
+            if(inputAmount > 0){
+                const tx = await withdraw(signer, inputAmount, selectedItem);
+                await tx.wait();
+                getDepositBalance(provider, wallet).then((balance) => {
                     setDepositedAmount(balance.toString());
-                }));
-            else
+                });
+            }
+            else{
                 alert("Please enter a valid amount");
+            }
+                
         }
         else{
             alert("Please connect your wallet");

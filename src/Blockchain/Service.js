@@ -18,11 +18,9 @@ const web3 = new Web3(window.ethereum);
 
 const oracleContractAddress = "0xd10b7fa0ecdc37abd6e4e8100bbf96c2e3073346"
 const principalCoinContractAddress = "0x0a23f12d5199ea81d126136d67f5df67f6a28c81"
-const lendingPlatformContractAddress = "0x66bcd74fb1dc72f5a5277957c40305c28c4fc3ac"
+const lendingPlatformContractAddress = "0x2812431621b5885370c07642B86b728449F66F3D"
 
 const testContractAddress = "0x358AA13c52544ECCEF6B0ADD0f801012ADAD5eE3"
-
-const tokenDecimals = 18;
 
 export const connectWalletMetamask = async (accountChangedHandler) => {
     const provider = new ethers.BrowserProvider(window.ethereum);
@@ -57,12 +55,18 @@ const getTestContract = (provider) => {
 export const deposit = async (provider, amount) => {
     const lendingPlatformContract = getLendingPlatformContract(provider);
     // const lendingPlatformContract = getTestContract(provider);
+
+    const principalCoinContract = getPrincipalCoinContract(provider);
+
     try{
+        const digits = await principalCoinContract.decimals();
         const convertedAmount = BigInt(amount);
         console.log("CONVERTED AMOUNT:", convertedAmount);
-        const tx = await lendingPlatformContract.deposit(convertedAmount);
-        await tx.wait();
-        return tx;
+        const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** digits);
+        await tx1.wait();
+        const tx2 = await lendingPlatformContract.deposit(convertedAmount);
+        await tx2.wait();
+        return tx2;
     }
     catch(err){
         console.log(err);
@@ -98,10 +102,16 @@ export const borrow = async (provider, amount, days) => {
     }
 }
 
-export const repay = async (provider, amount, loanIndex) => {
+export const repay = async (provider, amount) => {
     const lendingPlatformContract = getLendingPlatformContract(provider);
+    const principalCoinContract = getPrincipalCoinContract(provider);
     try{
-        const tx = await lendingPlatformContract.repay(amount, loanIndex);
+        const digits = await principalCoinContract.decimals();
+        const convertedAmount = BigInt(amount);
+        console.log("CONVERTED AMOUNT:", convertedAmount * BigInt(1000));
+        const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** digits);
+        await tx1.wait();
+        const tx = await lendingPlatformContract.repay(convertedAmount * BigInt(1000));
         await tx.wait();
         return tx;
     }

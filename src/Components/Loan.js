@@ -86,7 +86,7 @@ const Loan = () => {
                 })
                 .then(() => {
                     getLoanBalance(provider, wallet).then((balance) => {
-                        setLoanedAmount(balance);
+                        setLoanedAmount(balance.toString());
                     });
                 });
             } else {
