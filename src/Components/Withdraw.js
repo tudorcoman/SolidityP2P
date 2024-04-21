@@ -5,14 +5,14 @@ import '../Styles/Deposit.css';
 
 import { useWallet } from '../Blockchain/Context';
 
-import { deposit, getDepositBalance } from "../Blockchain/Service";
+import { getDepositBalance, withdraw } from "../Blockchain/Service";
 import { useNavigate } from "react-router-dom";
 
 const { ethers } = require("ethers");
 
 const provider = new ethers.BrowserProvider(window.ethereum);
 
-const Deposit = () => {
+const Withdraw = () => {
 
     const currencies = [
         'PRC',
@@ -78,23 +78,22 @@ const Deposit = () => {
 
     }, [wallet]);
 
-    const handleDeposit = async () => {
+    const handleWithdraw = async () => {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         
         if(wallet){
-            if(inputAmount > 0)
-                deposit(signer, inputAmount).then(() => {
-                    setInputAmount(0);
-                
-                })
-                .then(() => {
-                    getDepositBalance(provider, wallet).then((balance) => {
-                        setDepositedAmount(balance.toString());
-                    });
+            if(inputAmount > 0){
+                const tx = await withdraw(signer, inputAmount, selectedItem);
+                await tx.wait();
+                getDepositBalance(provider, wallet).then((balance) => {
+                    setDepositedAmount(balance.toString());
                 });
-            else
+            }
+            else{
                 alert("Please enter a valid amount");
+            }
+                
         }
         else{
             alert("Please connect your wallet");
@@ -112,9 +111,9 @@ const Deposit = () => {
                     <Button className="submit-button"
                             color="primary"
                             // size="lg"
-                            onClick={handleDeposit}
+                            onClick={handleWithdraw}
                         >
-                            Deposit
+                            Withdraw
                     </Button>
                     <Input type="number" min={1} placeholder="Amount" className="token-input" onChange={(e) => setInputAmount(e.target.value)} />
                     <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
@@ -136,4 +135,4 @@ const Deposit = () => {
     );
 }
 
-export default Deposit;
+export default Withdraw;

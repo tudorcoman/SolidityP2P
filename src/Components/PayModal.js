@@ -10,6 +10,11 @@ import { Button } from "reactstrap";
 Modal.setAppElement('#root');
 
 const PayModal = (props) => {
+
+    const handleUpdateLoanedAmount = async () => {
+        await props.updateLoanedAmount();
+    }
+
     return (
         <Modal className="modal-content"
             isOpen={props.isOpen}
@@ -18,7 +23,7 @@ const PayModal = (props) => {
             contentLabel="Pay Modal"
             contentOverlayClassName="modal-overlay"
         >
-            <TokenInput />
+            <TokenInput updateLoanedAmount={handleUpdateLoanedAmount} />
             <Button className="close-button" onClick={props.onRequestClose}>Close</Button>
         </Modal>
     );
