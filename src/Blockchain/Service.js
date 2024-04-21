@@ -18,7 +18,7 @@ const web3 = new Web3(window.ethereum);
 
 const oracleContractAddress = "0xd10b7fa0ecdc37abd6e4e8100bbf96c2e3073346"
 const principalCoinContractAddress = "0x0a23f12d5199ea81d126136d67f5df67f6a28c81"
-const lendingPlatformContractAddress = "0x2812431621b5885370c07642B86b728449F66F3D"
+const lendingPlatformContractAddress = "0xD53849646a09B7dc0aB5BBBc1CCE99049D0a1f10"
 
 const testContractAddress = "0x358AA13c52544ECCEF6B0ADD0f801012ADAD5eE3"
 
@@ -64,7 +64,7 @@ export const deposit = async (provider, amount) => {
         console.log("CONVERTED AMOUNT:", convertedAmount);
         const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** digits);
         await tx1.wait();
-        const tx2 = await lendingPlatformContract.deposit(convertedAmount);
+        const tx2 = await lendingPlatformContract.deposit(convertedAmount * BigInt(10) ** digits);
         await tx2.wait();
         return tx2;
     }
@@ -74,11 +74,14 @@ export const deposit = async (provider, amount) => {
 }
 
 export const withdraw = async (provider, amount) => {
+    
     const lendingPlatformContract = getLendingPlatformContract(provider);
+    const principalCoinContract = getPrincipalCoinContract(provider);
     try{
+        const digits = await principalCoinContract.decimals();
         const convertedAmount = BigInt(amount);
         console.log("CONVERTED AMOUNT:", convertedAmount);
-        const tx = await lendingPlatformContract.withdraw(convertedAmount);
+        const tx = await lendingPlatformContract.withdraw(convertedAmount * BigInt(10) ** digits);
         await tx.wait();
         return tx;
     }
@@ -90,10 +93,12 @@ export const withdraw = async (provider, amount) => {
 export const borrow = async (provider, amount, days) => {
     const lendingPlatformContract = getLendingPlatformContract(provider);
     // const lendingPlatformContract = getTestContract(provider);
+    const principalCoinContract = getPrincipalCoinContract(provider);
     try{
         const convertedAmount = BigInt(amount);
+        const digits = await principalCoinContract.decimals();
         console.log("CONVERTED AMOUNT:", convertedAmount);
-        const tx = await lendingPlatformContract.borrow(convertedAmount, days);
+        const tx = await lendingPlatformContract.borrow(convertedAmount * BigInt(10) ** digits, days);
         await tx.wait();
         return tx;
     }
@@ -108,10 +113,9 @@ export const repay = async (provider, amount) => {
     try{
         const digits = await principalCoinContract.decimals();
         const convertedAmount = BigInt(amount);
-        console.log("CONVERTED AMOUNT:", convertedAmount * BigInt(1000));
         const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** digits);
         await tx1.wait();
-        const tx = await lendingPlatformContract.repay(convertedAmount * BigInt(1000));
+        const tx = await lendingPlatformContract.repay(convertedAmount * BigInt(10) ** digits);
         await tx.wait();
         return tx;
     }
@@ -123,11 +127,13 @@ export const repay = async (provider, amount) => {
 export const getDepositBalance = async (provider, user) => {
     
     const lendingPlatformContract = getLendingPlatformContract(provider);
+    const principalCoinContract = getPrincipalCoinContract(provider);
     try{
+        const digits = await principalCoinContract.decimals();
         console.log(provider.address);
         const balance = await lendingPlatformContract.depositBalance(user);
         console.log(balance);
-        return balance;
+        return balance / BigInt(10) ** digits;
     }
     catch(err){
         console.log(err);
@@ -164,10 +170,12 @@ export const getDepositBalance = async (provider, user) => {
 
 export const getLoanBalance = async (provider, user) => {
     const lendingPlatformContract = getLendingPlatformContract(provider);
+    const principalCoinContract = getPrincipalCoinContract(provider);
     try{
+        const digits = await principalCoinContract.decimals();
         const balance = await lendingPlatformContract.loanBalance(user);
         console.log(balance);
-        return balance;
+        return balance / BigInt(10) ** digits;
     }
     catch(err){
         console.log(err);

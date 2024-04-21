@@ -48,11 +48,6 @@ const Home = () => {
         setIsModalOpen(false);
     }
 
-    // const handleLogin = (e) => {
-    //     e.preventDefault();
-    //     setIsUserLoggedIn(true);
-    // }
-
     const handleLogout = (e) => {
         e.preventDefault();
         setIsUserLoggedIn(false);
@@ -72,16 +67,9 @@ const Home = () => {
             setLoanAmount(balance);
           });                                                   
             
-        //   provider.getSigner().then(async (signer) => {
-        //     console.log(signer);
-        //     const balance = await getDepositBalance(signer);
-        //     const loanBalance = await getLoanBalance(signer);
-        //     setDepositedAmount(balance);
-        //     setLoanAmount(loanBalance);
-        //     });
+      
         }
 
-        
         
       }, []);
       
@@ -91,7 +79,7 @@ const Home = () => {
             console.log(wallet.address);
             setIsUserLoggedIn(true);
             getDepositBalance(provider, wallet).then((balance) => {
-                setDepositedAmount(balance.toString() / 1000);
+                setDepositedAmount(balance.toString());
             }); 
             getLoanBalance(provider, wallet).then((balance) => {
                 setLoanAmount(balance.toString());
@@ -99,6 +87,12 @@ const Home = () => {
         }
 
     }, [wallet]);
+
+    const handleUpdateLoanedAmount = async () => {
+        const newLoanBalance = await getLoanBalance(provider, wallet);
+        console.log("LOAN AMOUNT!!!: ", newLoanBalance);
+        setLoanAmount(newLoanBalance.toString());
+    }
 
     return (
 
@@ -135,7 +129,7 @@ const Home = () => {
                             <Button className="pay-button" onClick={openModal}>
                                 Pay
                             </Button>
-                            <PayModal isOpen={isModalOpen} onRequestClose={closeModal} />
+                            <PayModal updateLoanedAmount={handleUpdateLoanedAmount} isOpen={isModalOpen} onRequestClose={closeModal} />
                             </div>
 
                         </div>

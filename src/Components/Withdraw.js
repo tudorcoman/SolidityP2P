@@ -50,7 +50,7 @@ const Withdraw = () => {
           console.log(provider);
           console.log(wallet.address);
           getDepositBalance(provider, wallet).then((balance) => {
-            setDepositedAmount(balance);
+            setDepositedAmount(balance.toString());
           });                                                   
             
         //   provider.getSigner().then(async (signer) => {

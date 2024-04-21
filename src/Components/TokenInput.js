@@ -40,7 +40,10 @@ const TokenInput = (props) => {
     const handlePayLoan = async () => {
         if(inputAmount > 0){
             const signer = await provider.getSigner();
-            repay(signer, inputAmount);
+            repay(signer, inputAmount).then(() => {
+                props.updateLoanedAmount();
+            });
+           
         }
         
     }
