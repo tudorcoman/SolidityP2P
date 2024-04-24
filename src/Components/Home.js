@@ -32,9 +32,9 @@ const Home = () => {
     }
       
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         connectWalletMetamask(accountChangedHandler).then(() => {
-            setIsUserLoggedIn(true);
+            //setIsUserLoggedIn(true);
         });
     }
 
