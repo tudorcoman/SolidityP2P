@@ -61,10 +61,10 @@ const Home = () => {
           console.log(provider);
           console.log(wallet.address);
           getDepositBalance(provider, wallet).then((balance) => {
-            setDepositedAmount(balance);
+            setDepositedAmount((Number(balance) / 100).toFixed(2));
           });
           getLoanBalance(provider, wallet).then((balance) => {
-            setLoanAmount(balance);
+            setLoanAmount((Number(balance) / 100).toFixed(2));
           });                                                   
             
       
@@ -79,10 +79,10 @@ const Home = () => {
             console.log(wallet.address);
             setIsUserLoggedIn(true);
             getDepositBalance(provider, wallet).then((balance) => {
-                setDepositedAmount(balance.toString());
+                setDepositedAmount((Number(balance) / 100).toFixed(2));
             }); 
             getLoanBalance(provider, wallet).then((balance) => {
-                setLoanAmount(balance.toString());
+                setLoanAmount((Number(balance) / 100).toFixed(2));
             });  
         }
 
@@ -91,7 +91,7 @@ const Home = () => {
     const handleUpdateLoanedAmount = async () => {
         const newLoanBalance = await getLoanBalance(provider, wallet);
         console.log("LOAN AMOUNT!!!: ", newLoanBalance);
-        setLoanAmount(newLoanBalance.toString());
+        setLoanAmount((Number(newLoanBalance) / 100).toFixed(2));
     }
 
     return (

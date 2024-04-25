@@ -60,11 +60,11 @@ export const deposit = async (provider, amount) => {
 
     try{
         const digits = await principalCoinContract.decimals();
-        const convertedAmount = BigInt(amount);
+        const convertedAmount = BigInt(amount * 100);
         console.log("CONVERTED AMOUNT:", convertedAmount);
-        const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** digits);
+        const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** BigInt(16));
         await tx1.wait();
-        const tx2 = await lendingPlatformContract.deposit(convertedAmount * BigInt(10) ** digits);
+        const tx2 = await lendingPlatformContract.deposit(convertedAmount * BigInt(10) ** BigInt(16));
         await tx2.wait();
         return tx2;
     }
@@ -79,9 +79,9 @@ export const withdraw = async (provider, amount) => {
     const principalCoinContract = getPrincipalCoinContract(provider);
     try{
         const digits = await principalCoinContract.decimals();
-        const convertedAmount = BigInt(amount);
+        const convertedAmount = BigInt(amount * 100);
         console.log("CONVERTED AMOUNT:", convertedAmount);
-        const tx = await lendingPlatformContract.withdraw(convertedAmount * BigInt(10) ** digits);
+        const tx = await lendingPlatformContract.withdraw(convertedAmount * BigInt(10) ** BigInt(16));
         await tx.wait();
         return tx;
     }
@@ -95,10 +95,10 @@ export const borrow = async (provider, amount, days) => {
     // const lendingPlatformContract = getTestContract(provider);
     const principalCoinContract = getPrincipalCoinContract(provider);
     try{
-        const convertedAmount = BigInt(amount);
+        const convertedAmount = BigInt(amount * 100);
         const digits = await principalCoinContract.decimals();
         console.log("CONVERTED AMOUNT:", convertedAmount);
-        const tx = await lendingPlatformContract.borrow(convertedAmount * BigInt(10) ** digits, days);
+        const tx = await lendingPlatformContract.borrow(convertedAmount * BigInt(10) ** BigInt(16), days);
         await tx.wait();
         return tx;
     }
@@ -112,10 +112,10 @@ export const repay = async (provider, amount) => {
     const principalCoinContract = getPrincipalCoinContract(provider);
     try{
         const digits = await principalCoinContract.decimals();
-        const convertedAmount = BigInt(amount);
-        const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** digits);
+        const convertedAmount = BigInt(amount * 100);
+        const tx1 = await principalCoinContract.approve(lendingPlatformContractAddress, convertedAmount * BigInt(10) ** BigInt(16));
         await tx1.wait();
-        const tx = await lendingPlatformContract.repay(convertedAmount * BigInt(10) ** digits);
+        const tx = await lendingPlatformContract.repay(convertedAmount * BigInt(10) ** BigInt(16));
         await tx.wait();
         return tx;
     }
@@ -133,7 +133,8 @@ export const getDepositBalance = async (provider, user) => {
         console.log(provider.address);
         const balance = await lendingPlatformContract.depositBalance(user);
         console.log(balance);
-        return balance / BigInt(10) ** digits;
+        return balance / BigInt(10) ** BigInt(16);
+       
     }
     catch(err){
         console.log(err);
@@ -175,7 +176,7 @@ export const getLoanBalance = async (provider, user) => {
         const digits = await principalCoinContract.decimals();
         const balance = await lendingPlatformContract.loanBalance(user);
         console.log(balance);
-        return balance / BigInt(10) ** digits;
+        return balance / BigInt(10) ** BigInt(16);
     }
     catch(err){
         console.log(err);

@@ -50,7 +50,7 @@ const Deposit = () => {
           console.log(provider);
           console.log(wallet.address);
           getDepositBalance(provider, wallet).then((balance) => {
-            setDepositedAmount(balance.toString());
+            setDepositedAmount((Number(balance) / 100).toFixed(2));
           });                                                   
             
         //   provider.getSigner().then(async (signer) => {
@@ -72,7 +72,7 @@ const Deposit = () => {
             console.log(wallet.address);
             setIsUserLoggedIn(true);
             getDepositBalance(provider, wallet).then((balance) => {
-                setDepositedAmount(balance.toString());
+                setDepositedAmount((Number(balance) / 100).toFixed(2));
             });   
         }
 
@@ -85,12 +85,12 @@ const Deposit = () => {
         if(wallet){
             if(inputAmount > 0)
                 deposit(signer, inputAmount).then(() => {
-                    setInputAmount(0);
+                    //setInputAmount(0);
                 
                 })
                 .then(() => {
                     getDepositBalance(provider, wallet).then((balance) => {
-                        setDepositedAmount(balance.toString());
+                        setDepositedAmount((Number(balance) / 100).toFixed(2));
                     });
                 });
             else

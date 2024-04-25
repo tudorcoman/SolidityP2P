@@ -50,7 +50,7 @@ const Withdraw = () => {
           console.log(provider);
           console.log(wallet.address);
           getDepositBalance(provider, wallet).then((balance) => {
-            setDepositedAmount(balance.toString());
+            setDepositedAmount((Number(balance) / 100).toFixed(2));
           });                                                   
             
         //   provider.getSigner().then(async (signer) => {
@@ -72,7 +72,7 @@ const Withdraw = () => {
             console.log(wallet.address);
             setIsUserLoggedIn(true);
             getDepositBalance(provider, wallet).then((balance) => {
-                setDepositedAmount(balance.toString());
+                setDepositedAmount((Number(balance) / 100).toFixed(2));
             });   
         }
 
@@ -84,11 +84,17 @@ const Withdraw = () => {
         
         if(wallet){
             if(inputAmount > 0){
-                const tx = await withdraw(signer, inputAmount, selectedItem);
-                await tx.wait();
-                getDepositBalance(provider, wallet).then((balance) => {
-                    setDepositedAmount(balance.toString());
-                });
+                try{
+                    const tx = await withdraw(signer, inputAmount, selectedItem);
+                    await tx.wait();
+                    getDepositBalance(provider, wallet).then((balance) => {
+                        setDepositedAmount((Number(balance) / 100).toFixed(2));
+                    });
+                }
+                catch(err){
+                    console.log(err);
+                }
+                
             }
             else{
                 alert("Please enter a valid amount");

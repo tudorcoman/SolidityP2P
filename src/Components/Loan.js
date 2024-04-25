@@ -51,7 +51,7 @@ const Loan = () => {
           console.log(provider);
           console.log(wallet.address);
           getLoanBalance(provider, wallet).then((balance) => {
-            setLoanedAmount(balance);
+            setLoanedAmount((Number(balance) / 100).toFixed(2));
           });                                                   
             
         
@@ -67,7 +67,7 @@ const Loan = () => {
             console.log(wallet.address);
             setIsUserLoggedIn(true);
             getLoanBalance(provider, wallet).then((balance) => {
-                setLoanedAmount(balance.toString());
+                setLoanedAmount((Number(balance) / 100).toFixed(2));
             });   
         }
 
@@ -81,12 +81,12 @@ const Loan = () => {
             if(inputAmount > 0 && inputDays > 0) {
                 
                 borrow(signer, inputAmount, inputDays).then(() => {
-                    setInputAmount(0);
-                    setInputDays(1);
+                    //setInputAmount(0);
+                    //setInputDays(1);
                 })
                 .then(() => {
                     getLoanBalance(provider, wallet).then((balance) => {
-                        setLoanedAmount(balance.toString());
+                        setLoanedAmount((Number(balance) / 100).toFixed(2));
                     });
                 });
             } else {
