@@ -109,7 +109,6 @@ contract LendingPlatform is Initializable, OwnableUpgradeable, Pausable, UUPSUpg
 
     function withdraw(uint256 _amount) whenNotPaused public {
         require(depositBalance(msg.sender) >= int(_amount), "Insufficient balance");
-        require(loans[msg.sender].length == 0, "Cannot withdraw while loan is active");
 
         int256 amm = int256(_amount);
         for (uint256 i = 0; i < balances[msg.sender].length; i++) {
