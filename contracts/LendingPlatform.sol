@@ -197,7 +197,7 @@ contract LendingPlatform is Initializable, OwnableUpgradeable, Pausable, UUPSUpg
                 payment = 0;
             }
             token.transferFrom(msg.sender, address(this), _amount); // User repays the loan with tokens
-            
+            loans[msg.sender][uint256(_loanIndex)] = loan;
             emit Repay(msg.sender, _amount);
 
         } else {
@@ -207,6 +207,7 @@ contract LendingPlatform is Initializable, OwnableUpgradeable, Pausable, UUPSUpg
             // mark the loan as repaid
             loan.repaid = true;
             token.transferFrom(msg.sender, address(this), totalRepaymentAmount); // User repays the loan with tokens
+            loans[msg.sender][uint256(_loanIndex)] = loan;
             emit Repay(msg.sender, totalRepaymentAmount);
         }
     }
